@@ -1,0 +1,322 @@
+---
+Vix
+ResBaz R Session
+
+---
+#What is R?
+
+It is a programming environment for data processing and analysis.
+* free (as in beer) and open-source (free as in freedom)
+* community supported (anyone can pitch in and help)
+* continually evolving (stays up-to-date with trends in literature, and if you want something new, you make it!)
+* promotes **reproducible research** (this is extra important; not only for collaboration across the world - can collaborate freely with free tools - but also across time! - no-one wants to be trying to remember which buttons they clicked to get the result, six months after they wrote the methods).
+
+R is a programming language and environment for statistical programming. You can use R for data visualisation, manipulation and analysis. Some of these tasks can be performed by other programs, such as Microsoft Excel.
+
+I personally believe you should use the most appropriate tool for the job. It might be Excel, it might be R. Today we're going to have a small taste of what using R is like.
+
+First off: if you don't know how to do something, you can always search on the internet. Lots of pre-existing code exists on websites such as stackoverflow.com :)
+
+#Introduction
+
+In this first section, let's get a feeling for how R works, by getting our hands dirty! By the end of this section, you should hopefully:
+
+* understand what a variable is
+* be able to use a function
+* be able to read in data from a file
+* be able to make a basic plot
+* write a function of our own
+
+In this workshop, I will be using (and recommend you also use) RStudio. RStudio is a friendly interface for the R programming language. In order to use RStudio, you first need to obtain R.
+
+The main website for R is https://www.r-project.org/ (here you will information about versions, license terms, etc.)
+
+The main website for RStudio is https://www.rstudio.com/
+
+##Installing R
+
+*Open your browser and navigate to https://cran.r-project.org/mirrors.html
+(CRAN stands for Comprehensive R Archive Network)
+
+*Scroll down to New Zealand, pick https://cran.stat.auckland.ac.nz/
+
+###If you run Windows:
+Click the link "Download R for Windows". It will take you to a page: click the link "install R for the first time".
+
+This will take you to a page with the latest version of R, with a link "Download R 3.5.[X] for Windows". Click and run the executable file.
+
+###If you run Mac:
+Click the link "Download R for (Mac) OS X". It will take you to a page of releases - download the release which is compatible with your operating system.
+
+###If you run Linux
+Click the link "Download R for Linux". It will take you to a page - pick your operating system. (Check with your package management system as well.)
+
+###Installing when you don't have installation rights
+If you're using a University of Auckland computer, you can get R and R Studio from the Software Centre.
+
+##Installing RStudio
+
+Open your browser and navigate to https://www.rstudio.com/products/rstudio/download/#download
+
+Click the link to the relevant installer for your operating system.
+
+#Interacting with R:
+
+You can interact with R via the console, if you like!
+This is 'base R'. In computer terms, this operates as a READ-EVALUATE-PRINT-LOOP: the computer reads your input, evaluates it, prints the result, and loops around - waits to read your input again.
+
+This is for very serious people who eat nails for breakfast.
+
+For everyone else, there's RStudio!
+RStudio is an integrated development environment (IDE) for R. Put plainly, it is a cuddly interface for R. I highly recommend using it, and that's what we'll be using today.
+
+It might help to think of R as being like a car engine. You don't directly interact with the engine to make the car go; you interact with the car wheel and dashboard etc. That's R Studio. The analogy extends as well - I have no idea how a car engine works, but I can drive a car from A to B. Likewise, you don't need to know how R works 'under the hood' in order to use it to analyse and plot your data.
+
+Before we start, we need to first make some tweaks that will help us stay sane (you can change them later once you understand the implications). Jump into Tools > Global Options and and:
+1) uncheck the "Restore R.Data into workspace at startup"
+2) where it says "Save workspace to .RData on exit:" choose "Never" from the dropdown menu
+
+(This is because keeping stuff in your workspace can get messy, and unexpected things can happen. By never saving your workspace, you ensure you always start with a clean slate.)
+
+#Warm up: using R as a calculator
+
+You'll make lots of typos. That's OK!
+Now we're in RStudio, let's explore that read-evaluate-print loop:
+```
+1+1
+```
+R remembers the individual lines you typed, too. Use your arrow keys to scroll through your previous input. (This is a good way to correct typos without having to type lots of code all over again.)
+
+R will wait for an expression to be complete before it evaluates your input. This means you can break up input over multiple lines:
+```
+1+3+5+7+
+2+4+6+8
+```
+You can also write text
+```
+"Morena everyone!"
+```
+And break up text over lines as well - R will wait for a close quote before evaluating it.
+```
+"The art of walking upright here
+is the art of using both feet.
+
+One is for holding on.
+One is for letting go.
+- Glenn Colquhoun, The Art Of Walking Upright"
+```
+You may have noticed that there are comments: this is the stuff that follows a hash symbol `#`. R will ignore any input subsequent to a `#`.
+```
+22/7 # this is an approximation of pi. (Pi Approximation Day is imminent!)
+```
+Since R does not evaluate anything after the hash symbol, you can use comments to explain what you are doing with your code. It might seem silly to comment your code, but it's very helpful for other people when they look at and use your code. (It can also be helpful for yourself, later on - the you from five months ago doesn't answer email!)
+
+##Creating a variable
+A variable is a label for a value or object (e.g. a dataframe). The variable name is thus a way to refer to a value or object. You can think of it as 'storage' kind of code.
+To create a new variable, you type the label name and assign it a value using `<-`.
+
+Some things to note:
+
+* capitalization matters (thing != Thing != THING != tHiNg)
+* don't use spaces, or special characters (such as & + ? etc)
+* use the assignment operator <- (as opposed to =)
+
+```
+x <-5
+
+x*2
+
+simple_calculation <- 2+2
+
+simple_calculation
+
+simple_calculation + 4
+
+simple_calculation
+
+updated_answer <- simple_calculation + 4
+```
+Let's make a variable called `teacups'
+```
+#Make a variable called 'teacups'
+teacups <- 12
+#Print what is stored in the teacups variable
+teacups
+```
+Now we have the value 12 stored in a variable called `teacups`. Let's play with it:
+```
+#I dropped a cup!
+teacups - 1
+
+#R should have returned a result (11). However if we ask R to print what is stored in the `teacups` variable:
+teacups
+
+#Because we did not *save* the previous result, R has kept the value that we originally stored in the variable.
+
+#We can create a new variable to store our result
+intact_cups <- teacups - 1
+
+intact_cups
+
+#I'm really clumsy and dropped three more more!
+intact_cups <- intact_cups -3
+
+intact_cups
+
+#My friend bought me another set of teacups
+new_cups <- 6
+
+#Your turn! See if you can add the new_cups to the intact_cups so that when we print intact_cups we have all the intact cups I now own.
+```
+Variables will not change what is stored in them unless you explicitly save those changes.
+
+Cool! We've made a few variables! How many do we have? Let's list them:
+```
+ls()
+```
+and since we're in the friendly RStudio, it's keeping track of variables for us too! Take a look in the top right panel (if you've got the default layout) - you'll see there are two tabs, environment and history. Environment lists all the variables you have kicking around. They will stay there until you either remove them (with `rm(NAME_OF_VARIABLE)` which is a permanent removal - if you want it again, you'll have to enter it again and manipulate it to how you want it all over again) or until you close R (unless you explicitly save them).
+
+History keeps track of the stuff you've typed. If you click on entries, you'll see that there is an option to send them to the console. Try that with our `1+1` entry from the start!
+
+#Vectors and vectorized calculations
+A vector is simply an array of ordered elements (a 'line' of 'things'). The things in a vector must be all the same data type (some examples of data types you can put in a vector: numeric (1,2,3,4), character ('one', 'two', 'three', 'four'), logical (TRUE, FALSE).
+
+You stick stuff in a vector using `c(THING1, THING2, THING3)`. The c stands for 'concatenate', because computer language was invented by someone with a Late Middle English dictionary. But we can pretend it stands for 'chain', or 'combine-into-a-vector' if we like.
+
+```
+c(1, 2, 3)
+c('red fish', 'blue fish')
+
+#if you mix up types, what happens?
+c(2, 'good', 2, 'be', TRUE) #can't do it! (This is actually an important principle of Tidy Data (TM). More on that next session.)
+```
+OK so we have a vector. What can we do with it? Let's calculate some z-scores from the IQ results of four of my favourite flamingos:
+(What's a z-score? It's the signed number of standard deviations by which an observation differs from the mean. So -1 means the observation is 1sd below the mean. 2 means the observation is 2sd above the mean.)
+
+```
+#example IQ scores: mu (population mean) = 100, sigma (standard deviation) = 15
+iq <- c(86,101,127,99)
+iq - 100
+
+iq_zscores <- (iq-100)/15
+
+iq_zscores
+```
+#Functions
+A function performs an action on a thing that is passed to it. The 'thing' might be a variable, or a value, or even a request. You can think of it as an 'action' kind of code.
+
+It's not necessary to know (computationally) exactly how a function returns a result. (Though you should know what you want a function to do, so you can evaluate the result for meaning!)
+
+Some examples of functions:
+* adding a series of numbers (pass a list of numbers (this is the 'thing') to the function and have it add them all together (the 'action'). This would be like the `=SUM()` function in Excel)
+* reading in a file (pass a request to open and read a file (thing) and have it open and read it (action))
+
+Lots of functions already exist! This is great - you don't have to invent the wheel every time you want to perform analysis. Published functions are (usually) tested and error free. They are (usually) optimised which means your code will run faster and, and be cleaner to read and write.
+
+Let's use some which are built into R:
+```
+sort(iq_zscores)
+round(iq_zscores, 3)
+
+#Functions can be combined!
+
+round(sort(iq_zscores), 2)
+```
+##The HELP function: your new best friend
+```
+help('sort') #help page
+?sort
+??sort #returns search results for 'sort' from CRAN
+????sort #returns a joke
+
+example('sort') #show examples. Use with caution - can be even more confusing!
+```
+A bunch of related functions (say, statistics functions) may be found bundled into a package (such as the 'stats' package).
+#Fantastic packages of functions and where to find them
+
+The Comprehensive R Archive Network (CRAN) has the official repository of R add-on packages. You can install them using the function install.packages('package_name') or by using the drop-down menu in RStudio. There are a bunch of unofficial ones hosted in various places (such as github). The packages hosted on CRAN are (usually) vetted and work as intended.
+
+Let's install and load a package for plotting data into nice-looking graphs:
+```
+#install.packages("ggplot2") #or you can use the drop-down menu: Tools > Install packages > type [ggplot2]
+# You only need to install the package on your computer once. Once it's on your computer, you just need to 'call' it to use it.
+
+#To access a package and its functions in a session, you need to add it to the session's library of stuff it calls on.
+library(ggplot2)
+```
+But we need data to plot first!
+
+#Loading data: heart rate post-exercise vs resting heart rate
+
+Remember that comma-separated-values (.csv) file we downloaded at the beginning of the session? Let's put it in our working directory.
+
+Have a look at the files tab in the bottom right-hand pane. This tells you where we are - our 'working directory'. When you do an analysis, you want to put all the stuff you're using in one working directory (this maximises reproducibility; for instance, if you need to send your analysis somewhere, you zip a single directory and send it off). Copy the hrdata.csv file that you downloaded at the start to your working directory.
+
+Let's load it in using the function `read.csv()`.
+```
+hr.dat <- read.csv(file = "hrdata.csv", header = TRUE) # our data has headers
+
+View(hr.dat) # look at the entire file. We can do this because it's not very large :)
+head(hr.dat) # print the first few lines of the file to the console
+
+dim(hr.dat) # dim gives us the dimensions of the dataframe we have just loaded
+```
+So we can see what we have loaded into the variable `hr.dat`. (I personally find it helpful to check that I have grabbed the right thing once I have loaded it, in order to reduce errors!). We also know that the data has 200 rows (observations) and 3 columns (variables): sex, resting heart rate, and post-exercise heart rate.
+
+Let's ignore the sex column for a second and look at the mean resting heart rate. That is, we want the mean of the second column, looking at all the rows. To do this, we will use a function, and specify a column we want to apply the function to by using square brackets. Here, we specify `[rows, columns]`. We want all of the rows, so we leave it blank, and we want the second column, so we put 2.
+
+If you have prior programming experience, note that indexing in R starts at 1, not 0.
+
+```
+mean_restinghr <- mean(hr.dat[,2]) #the square brackets says 'use all the rows, and the second column'
+
+mean_restinghr
+
+#minimum resting heart rate
+min(hr.dat[,2])
+
+#standard deviation of resting heart rate
+sd(hr.dat[,2])
+```
+
+OK, so we have a feel for the values we might expect in this data. Let's plot the data now, using that package of plotting functions, `ggplot2`.
+
+```
+ggplot(data = hr.dat, mapping = aes(x = rest.hr, y = post.hr)) + geom_point()
+```
+
+With the `ggplot()` function, we have a few arguments in play:
+* the `data`frame we want to use: hr.dat
+* the `aes`thetic `mapping` we want our variables on: `rest.hr` maps to the `x` axis. `post.hr` maps to the `y` axis
+* the `+` adds another 'layer', which in this case specifies the `geom`etric object we will use to plot the data. In this case, we are using points, set by specifying `geom_point()`
+
+OK. Now say we want to map our sex variable to our plot. We can do this by adding a 'colour' aesthetic:
+
+```
+ggplot(data = hr.dat, mapping = aes(x = rest.hr, y = post.hr, colour = sex)) + geom_point()
+
+#lets label the axes nicely and give the figure a title, by adding a layer with labels:
+
+ggplot(data = hr.dat, mapping = aes(x = rest.hr, y = post.hr, colour = sex)) +
+  geom_point() +
+  labs(title = "Post-exercise HR as a function of resting HR, by sex", x = 'resting heart rate (bpm)', y = 'post-exercise heart rate (bpm)')
+
+#Recall R will wait for you to finish your input if you return after a +
+#This can make your code easier to read!
+```
+Finally: we might have an updated HR dataset every week! Rather than type all that out, why don't we make our own function?
+
+```
+plotHR <- function(hrdatafile){
+  #body of the function goes here
+  #read in the hr data
+  hr.dat <- read.csv(file = hrdatafile, header = TRUE, sep = ',')
+  ggplot(hr.dat, mapping = aes(x = rest.hr, y = post.hr)) +
+    geom_point() +
+    labs(title = "My figure", x = 'resting HR (bpm)', y = 'post-exercise HR (bpm)')
+}
+
+#try the function out
+
+plotHR(hrdatafile = 'hrdata.csv')
+```
